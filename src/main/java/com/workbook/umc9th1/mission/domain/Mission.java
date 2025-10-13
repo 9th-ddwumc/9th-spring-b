@@ -1,11 +1,13 @@
 package com.workbook.umc9th1.mission.domain;
 
+import com.workbook.umc9th1.member.domain.mapping.MemberMission;
 import com.workbook.umc9th1.store.domain.Store;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "mission")
@@ -37,5 +39,5 @@ public class Mission {
 
 
     @OneToMany(mappedBy = "mission", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MissionMember> participants = new ArrayList<>();
+    private List<MemberMission> participants = new ArrayList<>();
 }

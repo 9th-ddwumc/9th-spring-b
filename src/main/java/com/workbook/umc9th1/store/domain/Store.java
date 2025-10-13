@@ -3,6 +3,9 @@ package com.workbook.umc9th1.store.domain;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 @Table(name = "store")
 @Builder
