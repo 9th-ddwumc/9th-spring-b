@@ -1,6 +1,7 @@
 package com.example.jpa_practice.domain.review.entity;
 
 import com.example.jpa_practice.domain.member.entity.User;
+import com.example.jpa_practice.domain.store.entity.Store;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -33,6 +34,10 @@ public class Review {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id", nullable = false)
+    private Store store;
 
     // 연관관계 매핑
     @OneToMany(mappedBy = "review", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

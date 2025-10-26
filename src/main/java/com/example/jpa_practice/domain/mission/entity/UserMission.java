@@ -4,6 +4,8 @@ import com.example.jpa_practice.domain.member.entity.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Getter
 @Builder
@@ -20,6 +22,9 @@ public class UserMission {
     @Column(name = "mission_success", nullable = false)
     private Boolean missionSuccess;
 
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
@@ -27,4 +32,6 @@ public class UserMission {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "mission_id", nullable = false)
     private Mission mission;
+
+
 }

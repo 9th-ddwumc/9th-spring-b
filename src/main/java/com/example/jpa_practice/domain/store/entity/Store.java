@@ -1,5 +1,6 @@
 package com.example.jpa_practice.domain.store.entity;
 
+import com.example.jpa_practice.domain.mission.entity.Mission;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -32,8 +33,8 @@ public class Store {
     @JoinColumn(name = "location_id", nullable = false)
     private Location location;
 
-    // 연관관계 매핑 - 임시로 주석 처리
-    // @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    // @Builder.Default
-    // private List<Mission> missions = new ArrayList<>();
+    // 연관관계 매핑
+    @OneToMany(mappedBy = "store", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @Builder.Default
+    private List<Mission> missions = new ArrayList<>();
 }
