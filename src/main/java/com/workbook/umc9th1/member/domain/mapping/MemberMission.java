@@ -1,6 +1,7 @@
 package com.workbook.umc9th1.member.domain.mapping;
 
 import com.workbook.umc9th1.member.domain.Member;
+import com.workbook.umc9th1.mission.enums.MissionStatus;
 import com.workbook.umc9th1.mission.domain.Mission;
 import jakarta.persistence.*;
 import lombok.*;
@@ -41,5 +42,3 @@ public class MemberMission {
     @Column(name = "completed_at")
     private LocalDateTime completedAt;
 }
-
-enum MissionStatus { REQUESTED, IN_PROGRESS, COMPLETED, REJECTED }

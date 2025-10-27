@@ -1,5 +1,7 @@
 package com.workbook.umc9th1.store.domain;
 
+import com.workbook.umc9th1.global.entity.BaseEntity;
+import com.workbook.umc9th1.store.enums.FoodType;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -9,7 +11,7 @@ import lombok.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Food {
+public class Food extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,6 +19,5 @@ public class Food {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private FoodType name;
+    private FoodType foodType;
 }
-enum FoodType { KOREAN, CHINESE, JAPANESE, WESTERN, CHICKEN, PIZZA, BURGER, DESSERT, CAFE, ETC }

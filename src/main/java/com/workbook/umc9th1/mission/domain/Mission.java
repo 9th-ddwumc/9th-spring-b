@@ -1,5 +1,6 @@
 package com.workbook.umc9th1.mission.domain;
 
+import com.workbook.umc9th1.global.entity.BaseEntity;
 import com.workbook.umc9th1.member.domain.mapping.MemberMission;
 import com.workbook.umc9th1.store.domain.Store;
 import jakarta.persistence.*;
@@ -15,7 +16,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Mission {
+public class Mission extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

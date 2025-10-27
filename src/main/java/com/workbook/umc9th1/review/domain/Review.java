@@ -1,5 +1,6 @@
 package com.workbook.umc9th1.review.domain;
 
+import com.workbook.umc9th1.global.entity.BaseEntity;
 import com.workbook.umc9th1.member.domain.Member;
 import com.workbook.umc9th1.store.domain.Store;
 import jakarta.persistence.*;
@@ -16,7 +17,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Review {
+public class Review extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

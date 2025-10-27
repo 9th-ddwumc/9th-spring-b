@@ -1,5 +1,6 @@
 package com.workbook.umc9th1.review.domain;
 
+import com.workbook.umc9th1.global.entity.BaseEntity;
 import com.workbook.umc9th1.member.domain.Member;
 import com.workbook.umc9th1.store.domain.Store;
 import lombok.*;import jakarta.persistence.*;
@@ -14,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class ReviewReply {
+public class ReviewReply extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

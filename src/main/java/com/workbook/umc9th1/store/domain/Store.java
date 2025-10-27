@@ -1,5 +1,7 @@
 package com.workbook.umc9th1.store.domain;
 
+import com.workbook.umc9th1.global.entity.BaseEntity;
+import com.workbook.umc9th1.store.enums.Address;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,7 +14,7 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Store {
+public class Store extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,13 +25,9 @@ public class Store {
     private Food food;
 
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "area_id")
-    private Area area;
-
-
-    @Column(length = 255)
-    private String address;
+    @Enumerated(EnumType.STRING)
+    @Column(length = 50, nullable = false)
+    private Address address;
 
 
     @Column(length = 50)

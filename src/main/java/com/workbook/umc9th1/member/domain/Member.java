@@ -1,5 +1,6 @@
 package com.workbook.umc9th1.member.domain;
 
+import com.workbook.umc9th1.global.entity.BaseEntity;
 import com.workbook.umc9th1.member.domain.mapping.MemberAgreement;
 import com.workbook.umc9th1.member.domain.mapping.MemberFood;
 import com.workbook.umc9th1.member.domain.mapping.MemberPoint;
@@ -19,30 +20,33 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-public class Member {
+public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Provider provider;
 
 
-    @Column(name = "provider_id", length = 255)
+    @Column(name = "provider_id", length = 255, nullable = false)
     private String providerId;
 
 
-    @Column(length = 50)
+    @Column(length = 3, nullable = false)
     private String name;
 
 
-    @Column(length = 50)
+    @Column(length = 50, nullable = false)
     private String nickname;
 
 
     @Enumerated(EnumType.STRING)
-    private Gender gender;
+    @Column(nullable = false)
+    @Builder.Default
+    private Gender gender = Gender.NONE;
 
 
     @Column(length = 100)
@@ -57,10 +61,10 @@ public class Member {
     private String profileImageUrl;
 
 
-    @Column(length = 255)
+    @Column(length = 255, nullable = false)
     private String address;
 
-
+    @Column(nullable = false)
     private LocalDate birth;
 
 
