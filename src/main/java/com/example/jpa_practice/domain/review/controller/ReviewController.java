@@ -1,5 +1,6 @@
 package com.example.jpa_practice.domain.review.controller;
 
+import com.example.jpa_practice.domain.review.dto.MyReviewResponseDto;
 import com.example.jpa_practice.domain.review.dto.ReviewRequestDto;
 import com.example.jpa_practice.domain.review.dto.ReviewWithStoreDto;
 import com.example.jpa_practice.domain.review.entity.Review;
@@ -168,5 +169,57 @@ public class ReviewController {
     public ResponseEntity<Void> deleteReview(@PathVariable Long reviewId) {
         reviewRepository.deleteById(reviewId);
         return ResponseEntity.ok().build();
+    }
+
+    /**
+     * 내가 작성한 리뷰 보기 API (QueryDSL 사용)
+     * 필터링 조건: 가게별, 별점별
+     * 하나의 API로 설계
+     * 
+     * @param userId 필수: 사용자 ID
+     * @param storeName 선택: 가게명 필터 (예: "반이학생마라탕마라반")
+     * @param starRange 선택: 별점 구간 필터 ("5", "4", "3", "2", "1")
+     *                  5: 5.0점, 4: 4.0~4.9점, 3: 3.0~3.9점, 2: 2.0~2.9점, 1: 1.0~1.9점
+     * @return 내가 작성한 리뷰 목록
+     */
+    @GetMapping("/my-reviews")
+    public ResponseEntity<List<MyReviewResponseDto>> getMyReviews(
+            @RequestParam(required = true) Long userId,
+            @RequestParam(required = false) String storeName,
+            @RequestParam(required = false) String starRange) {
+        
+        // userId 유효성 검증
+        if (userId == null || userId <= 0) {
+            return ResponseEntity.badRequest().build();
+        }
+        
+        // 별점 구간을 Float 범위로 변환
+        Float minStar = null;
+        Float maxStar = null;
+        
+        if (starRange != null && !starRange.trim().isEmpty()) {
+            try {
+                int range = Integer.parseInt(starRange.trim());
+                if (range >= 1 && range <= 5) {
+                    minStar = (float) range;
+                    if (range == 5) {
+                        maxStar = 5.0f; // 5점은 정확히 5.0
+                    } else {
+                        maxStar = (float) (range + 0.9); // 예: "3" → 3.0~3.9
+                    }
+                }
+            } catch (NumberFormatException e) {
+                // 잘못된 starRange 값은 무시
+            }
+        }
+        
+        try {
+            List<MyReviewResponseDto> reviews = reviewRepository.findMyReviews(
+                    userId, storeName, minStar, maxStar);
+            return ResponseEntity.ok(reviews);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.badRequest().build();
+        }
     }
 }

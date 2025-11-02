@@ -35,3 +35,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### QueryDSL Generated Q Classes ###
+# Q클래스는 빌드 시 자동 생성되므로 git에 올리면 안됨
+generated/
