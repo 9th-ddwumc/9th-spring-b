@@ -1,10 +1,9 @@
 package com.workbook.umc9th1.review.repository;
 
 import com.querydsl.core.types.Predicate;
-import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.workbook.umc9th1.review.domain.QReview;
-import com.workbook.umc9th1.review.dto.MyReviewDto;
+import com.workbook.umc9th1.review.domain.Review;
 import com.workbook.umc9th1.store.domain.QStore;
 import jakarta.persistence.EntityManager;
 import org.springframework.data.domain.Page;
@@ -23,24 +22,15 @@ public class ReviewQueryDslImpl implements ReviewQueryDsl {
     }
 
     @Override
-    public Page<MyReviewDto> searchMyReviews(Predicate predicate, Pageable pageable) {
+    public Page<Review> searchMyReviews(Predicate predicate, Pageable pageable) {
         JPAQueryFactory queryFactory = new JPAQueryFactory(em);
 
         QReview r = QReview.review;
         QStore s = QStore.store;
 
-        List<MyReviewDto> content = queryFactory
-                .select(Projections.constructor(
-                        MyReviewDto.class,
-                        r.id,
-                        s.id,
-                        s.name,
-                        r.rating,
-                        r.content,
-                        r.createdAt
-                ))
-                .from(r)
-                .join(r.store, s)
+        List<Review> content = queryFactory
+                .selectFrom(r)
+                .join(r.store, s) //
                 .where(predicate)
                 .orderBy(r.createdAt.desc())
                 .offset(pageable.getOffset())

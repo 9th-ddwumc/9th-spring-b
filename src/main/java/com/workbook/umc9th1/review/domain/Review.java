@@ -4,10 +4,7 @@ import com.workbook.umc9th1.global.entity.BaseEntity;
 import com.workbook.umc9th1.member.domain.Member;
 import com.workbook.umc9th1.store.domain.Store;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,6 +12,7 @@ import java.util.List;
 @Entity
 @Table(name = "review")
 @Getter
+@Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Review extends BaseEntity {

@@ -1,6 +1,8 @@
 package com.workbook.umc9th1.review.controller;
 
-import com.workbook.umc9th1.review.dto.MyReviewDto;
+import com.workbook.umc9th1.global.apiPayload.ApiResponse;
+import com.workbook.umc9th1.global.apiPayload.code.GeneralSuccessCode;
+import com.workbook.umc9th1.review.dto.res.ReviewResponseDto;
 import com.workbook.umc9th1.review.service.ReviewQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,7 +20,7 @@ public class ReviewQueryController {
     private final ReviewQueryService reviewQueryService;
 
     @GetMapping("/my-review")
-    public Page<MyReviewDto> getMyReviews(
+    public ApiResponse<Page<ReviewResponseDto>> getMyReviews(
             @RequestParam Long memberId,
             @RequestParam(required = false) Long storeId,
             @RequestParam(required = false) String storeName,
@@ -27,6 +29,11 @@ public class ReviewQueryController {
             @RequestParam(defaultValue = "20") int size
     ) {
         Pageable pageable = PageRequest.of(page, size);
-        return reviewQueryService.getMyReviews(memberId, storeId, storeName, rating, pageable);
+
+        Page<ReviewResponseDto> result =
+                reviewQueryService.getMyReviews(memberId, storeId, storeName, rating, pageable);
+
+        GeneralSuccessCode code = GeneralSuccessCode.OK;
+        return ApiResponse.onSuccess(code, result);
     }
 }

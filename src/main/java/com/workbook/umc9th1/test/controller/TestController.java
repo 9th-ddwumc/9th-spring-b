@@ -1,11 +1,9 @@
 package com.workbook.umc9th1.test.controller;
 
 import com.workbook.umc9th1.global.apiPayload.ApiResponse;
-import com.workbook.umc9th1.global.apiPayload.code.GeneralErrorCode;
 import com.workbook.umc9th1.global.apiPayload.code.GeneralSuccessCode;
 import com.workbook.umc9th1.test.converter.TestConverter;
 import com.workbook.umc9th1.test.dto.res.TestResDTO;
-import com.workbook.umc9th1.test.exception.TestException;
 import com.workbook.umc9th1.test.service.query.TestQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

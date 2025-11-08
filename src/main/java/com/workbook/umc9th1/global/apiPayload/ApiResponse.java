@@ -4,8 +4,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.workbook.umc9th1.global.apiPayload.code.BaseErrorCode;
 import com.workbook.umc9th1.global.apiPayload.code.BaseSuccessCode;
-import com.workbook.umc9th1.global.apiPayload.code.GeneralSuccessCode;
-import com.workbook.umc9th1.test.dto.res.TestResDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

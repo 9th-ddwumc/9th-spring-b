@@ -1,4 +1,4 @@
-package com.workbook.umc9th1.review.dto;
+package com.workbook.umc9th1.review.dto.res;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MyReviewDto {
+public class ReviewResponseDto {
     private Long reviewId;
     private Long storeId;
     private String storeName;
