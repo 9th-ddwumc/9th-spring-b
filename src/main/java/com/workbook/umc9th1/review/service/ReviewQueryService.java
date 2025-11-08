@@ -2,17 +2,14 @@ package com.workbook.umc9th1.review.service;
 
 import com.querydsl.core.BooleanBuilder;
 import com.workbook.umc9th1.review.domain.QReview;
-import com.workbook.umc9th1.review.domain.Review;
 import com.workbook.umc9th1.review.dto.MyReviewDto;
 import com.workbook.umc9th1.review.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

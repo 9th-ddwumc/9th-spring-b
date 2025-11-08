@@ -7,11 +7,9 @@ import com.workbook.umc9th1.review.domain.QReview;
 import com.workbook.umc9th1.review.dto.MyReviewDto;
 import com.workbook.umc9th1.store.domain.QStore;
 import jakarta.persistence.EntityManager;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

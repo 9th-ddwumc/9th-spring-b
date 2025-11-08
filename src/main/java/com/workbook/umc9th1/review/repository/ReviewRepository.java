@@ -1,9 +1,6 @@
 package com.workbook.umc9th1.review.repository;
 
 import com.workbook.umc9th1.review.domain.Review;
-import com.workbook.umc9th1.review.dto.MyReviewDto;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

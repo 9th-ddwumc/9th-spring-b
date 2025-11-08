@@ -1,8 +1,8 @@
 package com.workbook.umc9th1.member.domain.mapping;
 
 import com.workbook.umc9th1.member.domain.Member;
-import com.workbook.umc9th1.mission.enums.MissionStatus;
 import com.workbook.umc9th1.mission.domain.Mission;
+import com.workbook.umc9th1.mission.enums.MissionStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
