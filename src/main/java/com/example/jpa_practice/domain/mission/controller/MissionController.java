@@ -7,6 +7,8 @@ import com.example.jpa_practice.domain.mission.entity.Mission;
 import com.example.jpa_practice.domain.mission.entity.UserMission;
 import com.example.jpa_practice.domain.mission.repository.MissionRepository;
 import com.example.jpa_practice.domain.mission.repository.UserMissionRepository;
+import com.example.jpa_practice.global.apiPayload.ApiResponse;
+import com.example.jpa_practice.global.apiPayload.code.GeneralSuccessCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -35,13 +37,14 @@ public class MissionController {
      * LIMIT 10 OFFSET 0;
      */
     @GetMapping("/user/{userId}")
-    public Page<UserMissionDto> getUserMissions(
+    public ApiResponse<Page<UserMissionDto>> getUserMissions(
             @PathVariable Long userId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
-        
+
         Pageable pageable = PageRequest.of(page, size);
-        return userMissionRepository.findUserMissionsByUserId(userId, pageable);
+        Page<UserMissionDto> missions = userMissionRepository.findUserMissionsByUserId(userId, pageable);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, missions);
     }
 
     /**
@@ -49,28 +52,32 @@ public class MissionController {
      */
     
     @GetMapping("/user/{userId}/all")
-    public List<UserMission> getAllUserMissions(@PathVariable Long userId) {
-        return userMissionRepository.findByUserUserIdOrderByCreatedAtDesc(userId);
+    public ApiResponse<List<UserMission>> getAllUserMissions(@PathVariable Long userId) {
+        List<UserMission> missions = userMissionRepository.findByUserUserIdOrderByCreatedAtDesc(userId);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, missions);
     }
 
     @GetMapping("/user/{userId}/success")
-    public List<UserMission> getSuccessUserMissions(@PathVariable Long userId) {
-        return userMissionRepository.findByUserUserIdAndMissionSuccessTrueOrderByCreatedAtDesc(userId);
+    public ApiResponse<List<UserMission>> getSuccessUserMissions(@PathVariable Long userId) {
+        List<UserMission> missions = userMissionRepository.findByUserUserIdAndMissionSuccessTrueOrderByCreatedAtDesc(userId);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, missions);
     }
 
     @GetMapping("/user/{userId}/failed")
-    public List<UserMission> getFailedUserMissions(@PathVariable Long userId) {
-        return userMissionRepository.findByUserUserIdAndMissionSuccessFalseOrderByCreatedAtDesc(userId);
+    public ApiResponse<List<UserMission>> getFailedUserMissions(@PathVariable Long userId) {
+        List<UserMission> missions = userMissionRepository.findByUserUserIdAndMissionSuccessFalseOrderByCreatedAtDesc(userId);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, missions);
     }
 
     @GetMapping("/user/{userId}/paged")
-    public Page<UserMission> getUserMissionsPaged(
+    public ApiResponse<Page<UserMission>> getUserMissionsPaged(
             @PathVariable Long userId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         
         Pageable pageable = PageRequest.of(page, size);
-        return userMissionRepository.findByUserUserIdOrderByCreatedAtDesc(userId, pageable);
+        Page<UserMission> missions = userMissionRepository.findByUserUserIdOrderByCreatedAtDesc(userId, pageable);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, missions);
     }
 
     /**
@@ -78,52 +85,60 @@ public class MissionController {
      */
     
     @GetMapping("/score/{minScore}")
-    public List<Mission> getMissionsByMinScore(@PathVariable Integer minScore) {
-        return missionRepository.findByScoreGreaterThanEqualOrderByCreatedAtDesc(minScore);
+    public ApiResponse<List<Mission>> getMissionsByMinScore(@PathVariable Integer minScore) {
+        List<Mission> missions = missionRepository.findByScoreGreaterThanEqualOrderByCreatedAtDesc(minScore);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, missions);
     }
 
     @GetMapping("/score/between")
-    public List<Mission> getMissionsByScoreRange(
+    public ApiResponse<List<Mission>> getMissionsByScoreRange(
             @RequestParam Integer minScore,
             @RequestParam Integer maxScore) {
-        return missionRepository.findByScoreBetweenOrderByCreatedAtDesc(minScore, maxScore);
+        List<Mission> missions = missionRepository.findByScoreBetweenOrderByCreatedAtDesc(minScore, maxScore);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, missions);
     }
 
     @GetMapping("/deadline/before/{deadline}")
-    public List<Mission> getMissionsBeforeDeadline(@PathVariable String deadline) {
+    public ApiResponse<List<Mission>> getMissionsBeforeDeadline(@PathVariable String deadline) {
         LocalDate date = LocalDate.parse(deadline);
-        return missionRepository.findByMissionDeadlineBeforeOrderByCreatedAtDesc(date);
+        List<Mission> missions = missionRepository.findByMissionDeadlineBeforeOrderByCreatedAtDesc(date);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, missions);
     }
 
     @GetMapping("/search")
-    public List<Mission> searchMissionsByCondition(@RequestParam String keyword) {
-        return missionRepository.findByConditionalContainingOrderByCreatedAtDesc(keyword);
+    public ApiResponse<List<Mission>> searchMissionsByCondition(@RequestParam String keyword) {
+        List<Mission> missions = missionRepository.findByConditionalContainingOrderByCreatedAtDesc(keyword);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, missions);
     }
 
     @GetMapping("/store/{storeId}")
-    public List<Mission> getMissionsByStore(@PathVariable Long storeId) {
-        return missionRepository.findByStoreId(storeId);
+    public ApiResponse<List<Mission>> getMissionsByStore(@PathVariable Long storeId) {
+        List<Mission> missions = missionRepository.findByStoreId(storeId);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, missions);
     }
 
     @GetMapping("/store/{storeId}/score/{minScore}")
-    public List<Mission> getMissionsByStoreAndMinScore(
+    public ApiResponse<List<Mission>> getMissionsByStoreAndMinScore(
             @PathVariable Long storeId,
             @PathVariable Integer minScore) {
-        return missionRepository.findByStoreIdAndMinScore(storeId, minScore);
+        List<Mission> missions = missionRepository.findByStoreIdAndMinScore(storeId, minScore);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, missions);
     }
 
     @GetMapping("/with-store-info")
-    public List<MissionWithStoreDto> getMissionsWithStoreInfo() {
-        return missionRepository.findMissionsWithStoreInfo();
+    public ApiResponse<List<MissionWithStoreDto>> getMissionsWithStoreInfo() {
+        List<MissionWithStoreDto> missions = missionRepository.findMissionsWithStoreInfo();
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, missions);
     }
 
     @GetMapping("/paged")
-    public Page<Mission> getAllMissionsPaged(
+    public ApiResponse<Page<Mission>> getAllMissionsPaged(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         
         Pageable pageable = PageRequest.of(page, size);
-        return missionRepository.findAllOrderByCreatedAtDesc(pageable);
+        Page<Mission> missions = missionRepository.findAllOrderByCreatedAtDesc(pageable);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, missions);
     }
 
     /**
@@ -139,27 +154,30 @@ public class MissionController {
      */
     
     @GetMapping("/home/{locationName}/user/{userId}")
-    public Page<HomeMissionDto> getAvailableMissionsByLocation(
+    public ApiResponse<Page<HomeMissionDto>> getAvailableMissionsByLocation(
             @PathVariable String locationName,
             @PathVariable Long userId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         
         Pageable pageable = PageRequest.of(page, size);
-        return missionRepository.findAvailableMissionsByLocation(locationName, userId, pageable);
+        Page<HomeMissionDto> missions = missionRepository.findAvailableMissionsByLocation(locationName, userId, pageable);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, missions);
     }
 
     @GetMapping("/home/{locationName}/all")
-    public List<HomeMissionDto> getAllMissionsByLocation(@PathVariable String locationName) {
-        return missionRepository.findAllMissionsByLocation(locationName);
+    public ApiResponse<List<HomeMissionDto>> getAllMissionsByLocation(@PathVariable String locationName) {
+        List<HomeMissionDto> missions = missionRepository.findAllMissionsByLocation(locationName);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, missions);
     }
 
     @GetMapping("/home/{locationName}/user/{userId}/score/{minScore}")
-    public List<HomeMissionDto> getAvailableMissionsByLocationAndMinScore(
+    public ApiResponse<List<HomeMissionDto>> getAvailableMissionsByLocationAndMinScore(
             @PathVariable String locationName,
             @PathVariable Long userId,
             @PathVariable Integer minScore) {
         
-        return missionRepository.findAvailableMissionsByLocationAndMinScore(locationName, userId, minScore);
+        List<HomeMissionDto> missions = missionRepository.findAvailableMissionsByLocationAndMinScore(locationName, userId, minScore);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, missions);
     }
 }

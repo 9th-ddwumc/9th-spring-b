@@ -9,11 +9,14 @@ import com.example.jpa_practice.domain.member.entity.User;
 import com.example.jpa_practice.domain.member.repository.UserRepository;
 import com.example.jpa_practice.domain.store.entity.Store;
 import com.example.jpa_practice.domain.store.repository.StoreRepository;
+import com.example.jpa_practice.global.apiPayload.ApiResponse;
+import com.example.jpa_practice.global.apiPayload.code.GeneralErrorCode;
+import com.example.jpa_practice.global.apiPayload.code.GeneralSuccessCode;
+import com.example.jpa_practice.global.exception.CustomException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -34,13 +37,19 @@ public class ReviewController {
      *           VALUES ('음 너무 맛있어요...', 5.0, NOW(), [가게 ID], [사용자 ID]);
      */
     @PostMapping
-    public ResponseEntity<Review> createReview(@RequestBody ReviewRequestDto requestDto) {
+    public ApiResponse<Review> createReview(@RequestBody ReviewRequestDto requestDto) {
         // 사용자와 가게 존재 여부 확인
         User user = userRepository.findById(requestDto.getUserId())
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + requestDto.getUserId()));
+                .orElseThrow(() -> new CustomException(
+                        GeneralErrorCode.NOT_FOUND,
+                        "User not found with id: " + requestDto.getUserId()
+                ));
         
         Store store = storeRepository.findById(requestDto.getStoreId())
-                .orElseThrow(() -> new RuntimeException("Store not found with id: " + requestDto.getStoreId()));
+                .orElseThrow(() -> new CustomException(
+                        GeneralErrorCode.NOT_FOUND,
+                        "Store not found with id: " + requestDto.getStoreId()
+                ));
 
         // 리뷰 생성
         Review review = Review.builder()
@@ -52,7 +61,7 @@ public class ReviewController {
                 .build();
 
         Review savedReview = reviewRepository.save(review);
-        return ResponseEntity.ok(savedReview);
+        return ApiResponse.onSuccess(GeneralSuccessCode.CREATED, savedReview);
     }
 
     /**
@@ -60,44 +69,50 @@ public class ReviewController {
      */
     
     @GetMapping("/user/{userId}")
-    public List<Review> getUserReviews(@PathVariable Long userId) {
-        return reviewRepository.findByUserUserIdOrderByCreatedAtDesc(userId);
+    public ApiResponse<List<Review>> getUserReviews(@PathVariable Long userId) {
+        List<Review> reviews = reviewRepository.findByUserUserIdOrderByCreatedAtDesc(userId);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, reviews);
     }
 
     @GetMapping("/store/{storeId}")
-    public List<Review> getStoreReviews(@PathVariable Long storeId) {
-        return reviewRepository.findByStoreStoreIdOrderByCreatedAtDesc(storeId);
+    public ApiResponse<List<Review>> getStoreReviews(@PathVariable Long storeId) {
+        List<Review> reviews = reviewRepository.findByStoreStoreIdOrderByCreatedAtDesc(storeId);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, reviews);
     }
 
     @GetMapping("/star/{minStar}")
-    public List<Review> getReviewsByMinStar(@PathVariable Float minStar) {
-        return reviewRepository.findByStarGreaterThanEqualOrderByCreatedAtDesc(minStar);
+    public ApiResponse<List<Review>> getReviewsByMinStar(@PathVariable Float minStar) {
+        List<Review> reviews = reviewRepository.findByStarGreaterThanEqualOrderByCreatedAtDesc(minStar);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, reviews);
     }
 
     @GetMapping("/star/between")
-    public List<Review> getReviewsByStarRange(
+    public ApiResponse<List<Review>> getReviewsByStarRange(
             @RequestParam Float minStar,
             @RequestParam Float maxStar) {
-        return reviewRepository.findByStarBetweenOrderByCreatedAtDesc(minStar, maxStar);
+        List<Review> reviews = reviewRepository.findByStarBetweenOrderByCreatedAtDesc(minStar, maxStar);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, reviews);
     }
 
     @GetMapping("/paged")
-    public Page<Review> getAllReviewsPaged(
+    public ApiResponse<Page<Review>> getAllReviewsPaged(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         
         Pageable pageable = PageRequest.of(page, size);
-        return reviewRepository.findAllByOrderByCreatedAtDesc(pageable);
+        Page<Review> reviews = reviewRepository.findAllByOrderByCreatedAtDesc(pageable);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, reviews);
     }
 
     @GetMapping("/store/{storeId}/paged")
-    public Page<Review> getStoreReviewsPaged(
+    public ApiResponse<Page<Review>> getStoreReviewsPaged(
             @PathVariable Long storeId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
         
         Pageable pageable = PageRequest.of(page, size);
-        return reviewRepository.findByStoreStoreIdOrderByCreatedAtDesc(storeId, pageable);
+        Page<Review> reviews = reviewRepository.findByStoreStoreIdOrderByCreatedAtDesc(storeId, pageable);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, reviews);
     }
 
     /**
@@ -105,49 +120,57 @@ public class ReviewController {
      */
     
     @GetMapping("/user/{userId}/store/{storeId}")
-    public List<Review> getUserStoreReviews(
+    public ApiResponse<List<Review>> getUserStoreReviews(
             @PathVariable Long userId,
             @PathVariable Long storeId) {
-        return reviewRepository.findByUserAndStore(userId, storeId);
+        List<Review> reviews = reviewRepository.findByUserAndStore(userId, storeId);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, reviews);
     }
 
     @GetMapping("/with-store-info")
-    public List<ReviewWithStoreDto> getReviewsWithStoreInfo() {
-        return reviewRepository.findReviewsWithStoreInfo();
+    public ApiResponse<List<ReviewWithStoreDto>> getReviewsWithStoreInfo() {
+        List<ReviewWithStoreDto> reviews = reviewRepository.findReviewsWithStoreInfo();
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, reviews);
     }
 
     @GetMapping("/store/{storeId}/average-star")
-    public ResponseEntity<Double> getStoreAverageStar(@PathVariable Long storeId) {
+    public ApiResponse<Double> getStoreAverageStar(@PathVariable Long storeId) {
         Double averageStar = reviewRepository.findAverageStarByStoreId(storeId);
-        return ResponseEntity.ok(averageStar != null ? averageStar : 0.0);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, averageStar != null ? averageStar : 0.0);
     }
 
     @GetMapping("/store/{storeId}/count")
-    public ResponseEntity<Long> getStoreReviewCount(@PathVariable Long storeId) {
+    public ApiResponse<Long> getStoreReviewCount(@PathVariable Long storeId) {
         Long count = reviewRepository.countReviewsByStoreId(storeId);
-        return ResponseEntity.ok(count);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, count);
     }
 
     /**
      * 특정 리뷰 조회
      */
     @GetMapping("/{reviewId}")
-    public ResponseEntity<Review> getReview(@PathVariable Long reviewId) {
+    public ApiResponse<Review> getReview(@PathVariable Long reviewId) {
         Review review = reviewRepository.findById(reviewId)
-                .orElseThrow(() -> new RuntimeException("Review not found with id: " + reviewId));
-        return ResponseEntity.ok(review);
+                .orElseThrow(() -> new CustomException(
+                        GeneralErrorCode.NOT_FOUND,
+                        "Review not found with id: " + reviewId
+                ));
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, review);
     }
 
     /**
      * 리뷰 수정
      */
     @PutMapping("/{reviewId}")
-    public ResponseEntity<Review> updateReview(
+    public ApiResponse<Review> updateReview(
             @PathVariable Long reviewId,
             @RequestBody ReviewRequestDto requestDto) {
         
         Review review = reviewRepository.findById(reviewId)
-                .orElseThrow(() -> new RuntimeException("Review not found with id: " + reviewId));
+                .orElseThrow(() -> new CustomException(
+                        GeneralErrorCode.NOT_FOUND,
+                        "Review not found with id: " + reviewId
+                ));
 
         review = Review.builder()
                 .reviewId(reviewId)
@@ -159,16 +182,22 @@ public class ReviewController {
                 .build();
 
         Review updatedReview = reviewRepository.save(review);
-        return ResponseEntity.ok(updatedReview);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, updatedReview);
     }
 
     /**
      * 리뷰 삭제
      */
     @DeleteMapping("/{reviewId}")
-    public ResponseEntity<Void> deleteReview(@PathVariable Long reviewId) {
+    public ApiResponse<Void> deleteReview(@PathVariable Long reviewId) {
+        if (!reviewRepository.existsById(reviewId)) {
+            throw new CustomException(
+                    GeneralErrorCode.NOT_FOUND,
+                    "Review not found with id: " + reviewId
+            );
+        }
         reviewRepository.deleteById(reviewId);
-        return ResponseEntity.ok().build();
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK);
     }
 
     /**
@@ -183,14 +212,17 @@ public class ReviewController {
      * @return 내가 작성한 리뷰 목록
      */
     @GetMapping("/my-reviews")
-    public ResponseEntity<List<MyReviewResponseDto>> getMyReviews(
+    public ApiResponse<List<MyReviewResponseDto>> getMyReviews(
             @RequestParam(required = true) Long userId,
             @RequestParam(required = false) String storeName,
             @RequestParam(required = false) String starRange) {
         
         // userId 유효성 검증
         if (userId == null || userId <= 0) {
-            return ResponseEntity.badRequest().build();
+            throw new CustomException(
+                    GeneralErrorCode.BAD_REQUEST,
+                    "userId must be greater than zero."
+            );
         }
         
         // 별점 구간을 Float 범위로 변환
@@ -216,10 +248,12 @@ public class ReviewController {
         try {
             List<MyReviewResponseDto> reviews = reviewRepository.findMyReviews(
                     userId, storeName, minStar, maxStar);
-            return ResponseEntity.ok(reviews);
+            return ApiResponse.onSuccess(GeneralSuccessCode.OK, reviews);
         } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.badRequest().build();
+            throw new CustomException(
+                    GeneralErrorCode.BAD_REQUEST,
+                    "리뷰 조회 중 오류가 발생했습니다."
+            );
         }
     }
 }
