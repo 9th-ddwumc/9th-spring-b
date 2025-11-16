@@ -13,6 +13,8 @@ public class MemberReqDto {
     public record JoinDto(
             @NotBlank
             String name,
+            @NotBlank
+            String nickname,
             @NotNull
             Gender gender,
             @NotNull

@@ -126,4 +126,6 @@ public interface MemberMissionRepository extends JpaRepository<MemberMission, Lo
             @Param("cursorId") Long cursorId,
             Pageable pageable
     );
+
+    boolean existsByMember_IdAndMission_Id(Long memberId, Long missionId);
 }

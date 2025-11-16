@@ -5,6 +5,7 @@ import com.workbook.umc9th1.member.domain.mapping.MemberAgreement;
 import com.workbook.umc9th1.member.domain.mapping.MemberFood;
 import com.workbook.umc9th1.member.domain.mapping.MemberPoint;
 import com.workbook.umc9th1.member.enums.Gender;
+import com.workbook.umc9th1.member.enums.Provider;
 import com.workbook.umc9th1.review.domain.Review;
 import com.workbook.umc9th1.store.enums.Address;
 import jakarta.persistence.*;
@@ -32,11 +33,12 @@ public class Member extends BaseEntity {
     private Provider provider = Provider.LOCAL;
 
 
+
     @Column(name = "provider_id", length = 255, nullable = false)
     private String providerId;
 
 
-    @Column(length = 3, nullable = false)
+    @Column(length = 10, nullable = false)
     private String name;
 
 
@@ -98,4 +100,3 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member")
     private List<MemberPoint> points = new ArrayList<>();
 }
-enum Provider { LOCAL, KAKAO, NAVER, GOOGLE }

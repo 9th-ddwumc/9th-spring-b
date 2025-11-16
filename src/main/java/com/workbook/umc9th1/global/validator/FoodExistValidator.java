@@ -1,6 +1,7 @@
 package com.workbook.umc9th1.global.validator;
 
 import com.workbook.umc9th1.food.exception.code.FoodErrorCode;
+import com.workbook.umc9th1.food.repository.FoodRepository;
 import com.workbook.umc9th1.global.annotation.ExistFoods;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -8,7 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import com.workbook.umc9th1.food.repository.FoodRepository;
 
 @Component
 @RequiredArgsConstructor

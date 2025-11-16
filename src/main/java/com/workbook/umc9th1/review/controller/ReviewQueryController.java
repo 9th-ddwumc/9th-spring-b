@@ -2,16 +2,14 @@ package com.workbook.umc9th1.review.controller;
 
 import com.workbook.umc9th1.global.apiPayload.ApiResponse;
 import com.workbook.umc9th1.global.apiPayload.code.GeneralSuccessCode;
+import com.workbook.umc9th1.review.dto.req.ReviewRequestDto;
 import com.workbook.umc9th1.review.dto.res.ReviewResponseDto;
 import com.workbook.umc9th1.review.service.ReviewQueryService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -35,5 +33,13 @@ public class ReviewQueryController {
 
         GeneralSuccessCode code = GeneralSuccessCode.OK;
         return ApiResponse.onSuccess(code, result);
+    }
+
+    @PostMapping
+    public ReviewResponseDto createReview(
+            @RequestHeader("memberId") Long memberId,
+            @RequestBody ReviewRequestDto request
+    ) {
+        return reviewQueryService.createReview(memberId, request);
     }
 }

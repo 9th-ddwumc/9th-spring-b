@@ -13,9 +13,8 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @Builder
 public class ReviewRequestDto {
-    private Long memberId;
+
     private Long storeId;
-    private String storeName;
     private BigDecimal rating;
     private String content;
 }
