@@ -34,7 +34,8 @@ public class MemberPoint {
     private Mission mission;
 
 
-    private Integer point; // 적립 포인트
+    @Builder.Default
+    private Integer point = 0; // 적립 포인트
 
 
     @Column(name = "completed_at")

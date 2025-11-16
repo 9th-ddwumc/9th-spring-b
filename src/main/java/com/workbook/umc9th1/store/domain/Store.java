@@ -1,5 +1,6 @@
 package com.workbook.umc9th1.store.domain;
 
+import com.workbook.umc9th1.food.domain.Food;
 import com.workbook.umc9th1.global.entity.BaseEntity;
 import com.workbook.umc9th1.store.enums.Address;
 import jakarta.persistence.*;

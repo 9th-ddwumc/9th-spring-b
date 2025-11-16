@@ -1,7 +1,7 @@
 package com.workbook.umc9th1.member.domain.mapping;
 
+import com.workbook.umc9th1.food.domain.Food;
 import com.workbook.umc9th1.member.domain.Member;
-import com.workbook.umc9th1.store.domain.Food;
 import jakarta.persistence.*;
 import lombok.*;
 

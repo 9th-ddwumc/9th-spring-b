@@ -1,7 +1,7 @@
 package com.workbook.umc9th1.mission.dto;
 
+import com.workbook.umc9th1.food.domain.FoodType;
 import com.workbook.umc9th1.store.enums.Address;
-import com.workbook.umc9th1.store.enums.FoodType;
 
 import java.time.LocalDateTime;
 
