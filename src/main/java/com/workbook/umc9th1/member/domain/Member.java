@@ -1,0 +1,102 @@
+package com.workbook.umc9th1.member.domain;
+
+import com.workbook.umc9th1.global.entity.BaseEntity;
+import com.workbook.umc9th1.member.domain.mapping.MemberAgreement;
+import com.workbook.umc9th1.member.domain.mapping.MemberFood;
+import com.workbook.umc9th1.member.domain.mapping.MemberPoint;
+import com.workbook.umc9th1.member.enums.Gender;
+import com.workbook.umc9th1.member.enums.Provider;
+import com.workbook.umc9th1.review.domain.Review;
+import com.workbook.umc9th1.store.enums.Address;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+@Entity
+@Table(name="member")
+@Builder
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+public class Member extends BaseEntity {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Provider provider = Provider.LOCAL;
+
+
+
+    @Column(name = "provider_id", length = 255, nullable = false)
+    private String providerId;
+
+
+    @Column(length = 10, nullable = false)
+    private String name;
+
+
+    @Column(length = 50, nullable = false)
+    private String nickname;
+
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    @Builder.Default
+    private Gender gender = Gender.NONE;
+
+
+    @Column(length = 100)
+    private String email;
+
+
+    @Column(name = "phone_number", length = 20)
+    private String phoneNumber;
+
+
+    @Column(name = "profile_image_url", length = 255)
+    private String profileImageUrl;
+
+
+    @Column(length = 255, nullable = false)
+    private Address address;
+
+    @Column(name = "detail_address")
+    private String detailAddress;
+
+    @Column(nullable = false)
+    private LocalDate birth;
+
+
+    @Column(length = 15)
+    private String status; // 활성/비활성 등 자유 텍스트
+
+
+    @Column(name = "inactive_date")
+    private LocalDateTime inactiveDate;
+
+
+    // 연관관계
+    @OneToMany(mappedBy = "member")
+    private List<MemberAgreement> agreements = new ArrayList<>();
+
+
+    // 양방향 매핑
+    @OneToMany(mappedBy = "member")
+    @Builder.Default
+    private List<MemberFood> memberFood = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "reviewer")
+    private List<Review> reviews = new ArrayList<>();
+
+
+    @OneToMany(mappedBy = "member")
+    private List<MemberPoint> points = new ArrayList<>();
+}
