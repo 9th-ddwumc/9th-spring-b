@@ -2,6 +2,7 @@ package com.example.jpa_practice.domain.review.repository;
 
 import com.example.jpa_practice.domain.review.dto.ReviewWithStoreDto;
 import com.example.jpa_practice.domain.review.entity.Review;
+import com.example.jpa_practice.domain.store.entity.Store;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -18,6 +19,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long>, ReviewRep
     
     // 1. 특정 사용자의 모든 리뷰 조회
     List<Review> findByUserUserIdOrderByCreatedAtDesc(Long userId);
+    Page<Review> findByUserUserIdOrderByCreatedAtDesc(Long userId, Pageable pageable);
     
     // 2. 특정 가게의 모든 리뷰 조회
     List<Review> findByStoreStoreIdOrderByCreatedAtDesc(Long storeId);
@@ -33,6 +35,8 @@ public interface ReviewRepository extends JpaRepository<Review, Long>, ReviewRep
     
     // 6. 특정 가게의 페이징 리뷰 조회
     Page<Review> findByStoreStoreIdOrderByCreatedAtDesc(Long storeId, Pageable pageable);
+
+    Page<Review> findAllByStore(Store store, Pageable pageable);
     
     /**
      * @Query 어노테이션을 사용한 JPQL 쿼리들

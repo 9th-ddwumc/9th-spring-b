@@ -1,14 +1,23 @@
 package com.example.jpa_practice.domain.mission.controller;
 
 import com.example.jpa_practice.domain.mission.dto.HomeMissionDto;
+import com.example.jpa_practice.domain.mission.dto.MissionResDTO;
 import com.example.jpa_practice.domain.mission.dto.MissionWithStoreDto;
 import com.example.jpa_practice.domain.mission.dto.UserMissionDto;
+import com.example.jpa_practice.domain.mission.dto.UserMissionResDTO;
 import com.example.jpa_practice.domain.mission.entity.Mission;
 import com.example.jpa_practice.domain.mission.entity.UserMission;
 import com.example.jpa_practice.domain.mission.repository.MissionRepository;
 import com.example.jpa_practice.domain.mission.repository.UserMissionRepository;
+import com.example.jpa_practice.domain.mission.service.query.MissionQueryService;
+import com.example.jpa_practice.domain.mission.service.query.UserMissionQueryService;
+import com.example.jpa_practice.global.annotation.PositivePage;
 import com.example.jpa_practice.global.apiPayload.ApiResponse;
 import com.example.jpa_practice.global.apiPayload.code.GeneralSuccessCode;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,6 +34,8 @@ public class MissionController {
 
     private final MissionRepository missionRepository;
     private final UserMissionRepository userMissionRepository;
+    private final MissionQueryService missionQueryService;
+    private final UserMissionQueryService userMissionQueryService;
 
     /**
      * 원본 SQL 쿼리를 JPQL로 리팩토링한 메인 쿼리
@@ -80,6 +91,33 @@ public class MissionController {
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, missions);
     }
 
+    @Operation(
+            summary = "진행 중인 미션 목록",
+            description = "특정 사용자가 아직 완료하지 않은 미션들을 페이지당 10개씩 조회합니다. page는 1부터 시작합니다."
+    )
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "200",
+                    description = "진행 중인 미션 조회 성공",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = UserMissionResDTO.UserMissionPreviewListDTO.class)
+                    )
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "400",
+                    description = "잘못된 요청"
+            )
+    })
+    @GetMapping("/user/{userId}/in-progress")
+    public ApiResponse<UserMissionResDTO.UserMissionPreviewListDTO> getInProgressMissions(
+            @PathVariable Long userId,
+            @PositivePage int page
+    ) {
+        UserMissionResDTO.UserMissionPreviewListDTO response = userMissionQueryService.getInProgressMissions(userId, page);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, response);
+    }
+
     /**
      * Mission 관련 쿼리들 테스트
      */
@@ -115,6 +153,37 @@ public class MissionController {
     public ApiResponse<List<Mission>> getMissionsByStore(@PathVariable Long storeId) {
         List<Mission> missions = missionRepository.findByStoreId(storeId);
         return ApiResponse.onSuccess(GeneralSuccessCode.OK, missions);
+    }
+
+    @Operation(
+            summary = "특정 가게 미션 목록(페이징)",
+            description = "지정된 가게의 미션을 페이지당 10개씩 조회합니다. page는 1부터 시작합니다."
+    )
+    @ApiResponses({
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "200",
+                    description = "미션 목록 조회 성공",
+                    content = @Content(
+                            mediaType = "application/json",
+                            schema = @Schema(implementation = MissionResDTO.MissionPreviewListDTO.class)
+                    )
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "400",
+                    description = "잘못된 요청"
+            ),
+            @io.swagger.v3.oas.annotations.responses.ApiResponse(
+                    responseCode = "404",
+                    description = "가게를 찾을 수 없음"
+            )
+    })
+    @GetMapping("/store/{storeId}/missions")
+    public ApiResponse<MissionResDTO.MissionPreviewListDTO> getStoreMissions(
+            @PathVariable Long storeId,
+            @PositivePage int page
+    ) {
+        MissionResDTO.MissionPreviewListDTO response = missionQueryService.getMissionsByStore(storeId, page);
+        return ApiResponse.onSuccess(GeneralSuccessCode.OK, response);
     }
 
     @GetMapping("/store/{storeId}/score/{minScore}")

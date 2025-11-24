@@ -2,6 +2,7 @@ package com.example.jpa_practice.domain.review.controller;
 
 import com.example.jpa_practice.domain.review.dto.MyReviewResponseDto;
 import com.example.jpa_practice.domain.review.dto.ReviewRequestDto;
+import com.example.jpa_practice.domain.review.dto.ReviewResDTO;
 import com.example.jpa_practice.domain.review.dto.ReviewWithStoreDto;
 import com.example.jpa_practice.domain.review.entity.Review;
 import com.example.jpa_practice.domain.review.repository.ReviewRepository;
@@ -13,6 +14,9 @@ import com.example.jpa_practice.global.apiPayload.ApiResponse;
 import com.example.jpa_practice.global.apiPayload.code.GeneralErrorCode;
 import com.example.jpa_practice.global.apiPayload.code.GeneralSuccessCode;
 import com.example.jpa_practice.global.exception.CustomException;
+import com.example.jpa_practice.domain.review.exception.code.ReviewSuccessCode;
+import com.example.jpa_practice.domain.review.service.query.ReviewQueryService;
+import com.example.jpa_practice.global.annotation.PositivePage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,11 +29,12 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/reviews")
 @RequiredArgsConstructor
-public class ReviewController {
+public class ReviewController implements ReviewControllerDocs {
 
     private final ReviewRepository reviewRepository;
     private final UserRepository userRepository;
     private final StoreRepository storeRepository;
+    private final ReviewQueryService reviewQueryService;
 
     /**
      * 리뷰 작성 API
@@ -255,5 +260,24 @@ public class ReviewController {
                     "리뷰 조회 중 오류가 발생했습니다."
             );
         }
+    }
+
+    @GetMapping
+    @Override
+    public ApiResponse<ReviewResDTO.ReviewPreViewListDTO> getReviews(
+            @RequestParam String storeName,
+            @RequestParam(defaultValue = "0") int page
+    ) {
+        ReviewResDTO.ReviewPreViewListDTO response = reviewQueryService.findReview(storeName, page);
+        return ApiResponse.onSuccess(ReviewSuccessCode.FOUND, response);
+    }
+
+    @GetMapping("/my")
+    public ApiResponse<ReviewResDTO.ReviewPreViewListDTO> getMyReviewList(
+            @RequestParam Long userId,
+            @PositivePage int page
+    ) {
+        ReviewResDTO.ReviewPreViewListDTO response = reviewQueryService.getMyReviews(userId, page);
+        return ApiResponse.onSuccess(ReviewSuccessCode.FOUND, response);
     }
 }

@@ -40,6 +40,8 @@ public interface MissionRepository extends JpaRepository<Mission, Long> {
     // 6. 특정 가게의 모든 미션 조회
     @Query("SELECT m FROM Mission m WHERE m.store.storeId = :storeId ORDER BY m.createdAt DESC")
     List<Mission> findByStoreId(@Param("storeId") Long storeId);
+
+    Page<Mission> findByStoreStoreIdOrderByCreatedAtDesc(Long storeId, Pageable pageable);
     
     // 7. 특정 가게의 특정 점수 이상 미션 조회
     @Query("SELECT m FROM Mission m WHERE m.store.storeId = :storeId AND m.score >= :minScore ORDER BY m.createdAt DESC")

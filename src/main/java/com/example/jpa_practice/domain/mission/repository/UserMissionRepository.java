@@ -34,6 +34,19 @@ public interface UserMissionRepository extends JpaRepository<UserMission, Long> 
             "ORDER BY um.createdAt DESC")
     Page<UserMissionDto> findUserMissionsByUserId(@Param("userId") Long userId, Pageable pageable);
 
+    @Query("SELECT new com.example.jpa_practice.domain.mission.dto.UserMissionDto(" +
+            "m.missionId, " +
+            "m.conditional, " +
+            "m.score, " +
+            "s.storeName, " +
+            "um.missionSuccess) " +
+            "FROM UserMission um " +
+            "JOIN um.mission m " +
+            "JOIN m.store s " +
+            "WHERE um.user.userId = :userId AND um.missionSuccess = false " +
+            "ORDER BY um.createdAt DESC")
+    Page<UserMissionDto> findInProgressMissionsByUserId(@Param("userId") Long userId, Pageable pageable);
+
     /**
      * 메서드 이름으로 쿼리 생성 방식들
      */
