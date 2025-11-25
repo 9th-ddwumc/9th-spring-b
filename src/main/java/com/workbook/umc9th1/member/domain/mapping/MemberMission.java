@@ -41,4 +41,10 @@ public class MemberMission {
 
     @Column(name = "completed_at")
     private LocalDateTime completedAt;
+
+    public void completeMission() {
+        this.status = MissionStatus.COMPLETED;
+        this.completedAt = LocalDateTime.now();
+    }
+
 }

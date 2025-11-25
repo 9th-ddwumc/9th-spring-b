@@ -14,6 +14,7 @@ import org.springframework.data.repository.query.Param;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 public interface MemberMissionRepository extends JpaRepository<MemberMission, Long> {
 
@@ -128,4 +129,7 @@ public interface MemberMissionRepository extends JpaRepository<MemberMission, Lo
     );
 
     boolean existsByMember_IdAndMission_Id(Long memberId, Long missionId);
+
+    Optional<MemberMission> findByMember_IdAndMission_Id(Long memberId, Long missionId);
+
 }

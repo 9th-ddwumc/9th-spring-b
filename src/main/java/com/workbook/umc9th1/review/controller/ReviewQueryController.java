@@ -7,8 +7,6 @@ import com.workbook.umc9th1.review.dto.req.ReviewRequestDto;
 import com.workbook.umc9th1.review.dto.res.ReviewResDto;
 import com.workbook.umc9th1.review.exception.code.ReviewSuccessCode;
 import com.workbook.umc9th1.review.service.ReviewQueryService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

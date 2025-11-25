@@ -4,7 +4,6 @@ import com.workbook.umc9th1.global.apiPayload.ApiResponse;
 import com.workbook.umc9th1.review.dto.res.ReviewResDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.springframework.web.bind.annotation.RequestParam;
 
 public interface ReviewControllerDocs {
     @Operation(
