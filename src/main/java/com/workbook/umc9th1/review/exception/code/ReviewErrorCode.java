@@ -14,6 +14,7 @@ public enum ReviewErrorCode implements BaseErrorCode {
     INVALID_PAGE_REQUEST(HttpStatus.BAD_REQUEST, "REVIEW400_3", "페이지 요청이 유효하지 않습니다."),
     REVIEW_QUERY_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "REIVEW500_1", "리뷰 목록 조회에 실패했습니다."),
     STORE_NOT_FOUND(HttpStatus.BAD_REQUEST, "REVIEW400_4", "존재하지 않는 가게입니다."),
+    NOT_FOUND(HttpStatus.NOT_FOUND, "REVIEW404_1", "해당 리뷰를 찾을 수 없습니다."),
     ;
 
     private final HttpStatus status;
