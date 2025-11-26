@@ -1,26 +1,42 @@
-package com.example.umc9th.domain.misson.entity;
+package com.example.practice_spring.domain.mission.entity;
 
-import com.example.umc9th.global.entity.BaseEntity;
+import com.example.practice_spring.domain.store.entity.Store;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "mission")
-@Getter @Setter
-public class Mission extends BaseEntity {
-
+@Getter
+@Setter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Mission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long missionId;
 
-    @Column(name = "dealLine")
-    private LocalDateTime deadLine;
+    private LocalDate deadline;
 
-    @Column(name = "conditional", length = 50)
     private String conditional;
 
-    @Column(name = "point")
     private Integer point;
+
+    private LocalDateTime createdAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "store_id")
+    private Store store;
+
+    public Mission(String conditional, int point, LocalDate deadline, Store store) {
+        this.conditional = conditional;
+        this.point = point;
+        this.deadline = deadline;
+        this.store = store;
+        this.createdAt = LocalDateTime.now();
+    }
 }

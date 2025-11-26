@@ -1,4 +1,4 @@
-package com.example.umc9th.global.entity;
+package com.example.practice_spring.global.entity;
 
 import jakarta.persistence.Column;
 import org.springframework.data.annotation.CreatedDate;

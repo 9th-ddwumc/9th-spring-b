@@ -1,6 +1,6 @@
-package com.example.umc9th.global.apiPayload.exception;
+package com.example.practice_spring.global.apiPayload.exception;
 
-import com.example.umc9th.global.apiPayload.code.BaseErrorCode;
+import com.example.practice_spring.global.apiPayload.code.BaseErrorCode;
 
 public class TestException extends GeneralException {
     public TestException(BaseErrorCode code) {

@@ -1,28 +1,14 @@
-package com.example.umc9th.domain.review.repository;
+package com.example.practice_spring.domain.review.repository;
 
-import com.example.umc9th.domain.review.dto.*;
-import com.example.umc9th.domain.review.entity.*;
-import org.springframework.data.jpa.repository.*;
-import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
+import com.example.practice_spring.domain.review.entity.Review;
+import org.springframework.data.jpa.repository.JpaRepository;
+
 import java.util.List;
 
-@Repository
 public interface ReviewRepository extends JpaRepository<Review, Long> {
+    // 특정 가게 리뷰 조회
+    List<Review> findByStore_StoreId(Long storeId);
 
-    @Query("""
-        SELECT new com.example.dto.ReviewDetailResponse(
-            r.reviewId,
-            m.nickname,
-            r.rating,
-            r.createdAt,
-            r.description,
-            rr.content
-        )
-        FROM Review r
-        JOIN r.member m
-        LEFT JOIN r.reviewReplies rr
-        WHERE r.reviewId = :reviewId
-        """)
-    List<ReviewDetailResponse> findReviewDetails(@Param("reviewId") Long reviewId);
+    // 특정 회원 리뷰 조회
+    List<Review> findByMember_MemberId(Long memberId);
 }

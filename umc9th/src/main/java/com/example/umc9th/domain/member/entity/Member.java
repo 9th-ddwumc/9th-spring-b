@@ -1,55 +1,54 @@
-package com.example.umc9th.domain.member.entity;
+package com.example.practice_spring.domain.member.entity;
 
-import com.example.umc9th.domain.member.enums.Gender;
-import com.example.umc9th.domain.member.enums.SocialType;
-import com.example.umc9th.domain.member.enums.Status;
-import com.example.umc9th.global.entity.BaseEntity;
+import com.example.practice_spring.domain.member.entity.type.FoodType;
+import com.example.practice_spring.domain.member.entity.type.GenderType;
+import com.example.practice_spring.domain.member.entity.type.SocialType;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Entity
 @Table(name = "member")
 @Getter
 @Setter
-public class Member extends BaseEntity {
+public class Member {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long memberId;
 
-    @Column(length = 6, name="name", nullable = false)
     private String name;
 
-    @Column(name = "gender")
-    private Gender gender;
+    @Enumerated(EnumType.STRING)
+    private GenderType gender;
 
-    @Column(name = "birth", length = 10)
-    private String birth;
+    private Date birth;
 
-    @Column(name = "address", length = 30)
     private String address;
 
-    @Column(name = "detail_address", length = 30)
-    private String Detailaddress;
+    private String detailAddress;
 
-    @Column(name = "socail_uid", length = 20)
     private String socialUid;
 
-    @Column(name = "socail_type", length = 3)
+    @Enumerated(EnumType.STRING)
     private SocialType socialType;
 
-    @Column(name = "point", length = 20)
-    private Long point;
+    private Integer point;
 
-    @Column(name = "phone_number", length = 20)
-    private String phone_number;
-
-    @Column(name = "email", length = 20)
     private String email;
 
-    // deleted_at 삭제하고 status로 회원 관리
-    @Column(name = "status", length = 15)
-    private Status status;
+    private String phoneNumber;
+
+    private String password;
+
+    private String nickname;
+
+    private LocalDateTime updatedAt;
+
+    @CreatedDate
+    private LocalDateTime createdAt;
 }

@@ -1,4 +1,4 @@
-package com.example.umc9th.global.apiPayload.code;
+package com.example.practice_spring.global.apiPayload.code;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

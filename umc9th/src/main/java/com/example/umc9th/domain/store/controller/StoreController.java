@@ -1,19 +1,23 @@
-package com.example.umc9th.domain.store.controller;
+package com.example.practice_spring.domain.store.controller;
 
+import com.example.practice_spring.domain.store.dto.req.StoreReqDto;
+import com.example.practice_spring.domain.store.dto.res.StoreResDto;
+import com.example.practice_spring.domain.store.service.StoreService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/locations")
 @RequiredArgsConstructor
-@RequestMapping("/stores")
 public class StoreController {
     private final StoreService storeService;
 
-    @PostMapping
-    public StoreCreateResDto createStore(@RequestBody StoreCreateReqDto request) {
-        return storeService.createStore(request);
+    // 특정 지역에 가게 추가
+    @PostMapping("/{locationId}/stores")
+    public StoreResDto addStore(
+            @PathVariable Long locationId,
+            @RequestBody StoreReqDto reqDto
+    ) {
+        return storeService.addStoreToLocation(locationId, reqDto);
     }
 }

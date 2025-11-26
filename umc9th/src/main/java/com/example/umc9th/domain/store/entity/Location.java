@@ -1,18 +1,19 @@
-package com.example.umc9th.domain.store.entity;
+package com.example.practice_spring.domain.store.entity;
 
-import com.example.umc9th.global.entity.BaseEntity;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
+
+import java.math.BigInteger;
 
 @Entity
 @Table(name = "location")
-@Getter @Setter
-public class Location extends BaseEntity {
-
+@Getter
+@Setter
+public class Location {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long locationId;
 
-    @Column(name = "name", length = 100, nullable = false)
     private String name;
 }

@@ -1,31 +1,10 @@
-package com.example.umc9th.domain.mission.repository;
+package com.example.practice_spring.domain.mission.repository;
 
-import com.example.umc9th.domain.mission.entity.*;
-import org.springframework.data.jpa.repository.*;
-import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
+import com.example.practice_spring.domain.mission.entity.MemberMission;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-@Repository
-public interface MemberMissionRepository extends JpaRepository<MissionMember, Long> {
+import java.util.List;
 
-    @Query("""
-        SELECT new com.example.dto.MemberMissionInfo(
-            m.memberId,
-            mk.name,
-            p.amount,
-            ms.missionId,
-            ms.point,
-            ms.deadline,
-            mk.marketId,
-            mk.category,
-            mm.complete
-        )
-        FROM MissionMember mm
-        JOIN mm.member m
-        JOIN mm.mission ms
-        JOIN ms.market mk
-        LEFT JOIN Point p ON p.member.memberId = m.memberId
-        WHERE m.memberId = :memberId
-        """)
-    List<MemberMissionInfo> findMemberMissionInfo(@Param("memberId") Long memberId);
+public interface MemberMissionRepository extends JpaRepository<MemberMission, Long> {
+    List<MemberMission> findByMember_MemberIdAndIsCompleteFalse(Long memberId);
 }

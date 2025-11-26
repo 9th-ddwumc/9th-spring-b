@@ -1,6 +1,6 @@
-package com.example.umc9th.domain.test.converter;
+package com.example.practice_spring.domain.test.converter;
 
-import com.example.umc9th.domain.test.dto.res.TestResDTO;
+import com.example.practice_spring.domain.test.dto.res.TestResDTO;
 
 public class TestConverter {
 
@@ -9,16 +9,7 @@ public class TestConverter {
             String testing
     ) {
         return TestResDTO.Testing.builder()
-                .testString(testing)
-                .build();
-    }
-
-    // 객체 -> DTO
-    public static TestResDTO.Exception toExceptionDTO(
-            String testing
-    ){
-        return TestResDTO.Exception.builder()
-                .testString(testing)
+                .testing(testing)
                 .build();
     }
 }

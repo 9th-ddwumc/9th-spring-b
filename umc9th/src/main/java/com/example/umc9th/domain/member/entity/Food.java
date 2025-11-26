@@ -1,23 +1,20 @@
-package com.example.umc9th.domain.member.entity;
+package com.example.practice_spring.domain.member.entity;
 
-import com.example.umc9th.domain.member.enums.FoodType;
-import com.example.umc9th.global.entity.BaseEntity;
+import com.example.practice_spring.domain.member.entity.type.FoodType;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-@Builder
-@NoArgsConstructor (access = AccessLevel.PROTECTED)
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@Table(name = "food")
 @Getter
-@Table (name = "food")
-public class Food extends BaseEntity {
+@Setter
+public class Food {
 
     @Id
-    @GeneratedValue(strategy = GenerationType. IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long foodId;
 
-    @Column (name = "name", nullable = false)
-    @Enumerated (EnumType .STRING)
+    @Enumerated(EnumType.STRING)
     private FoodType name;
 }

@@ -1,17 +1,20 @@
-package com.example.umc9th.domain.member.entity;
+package com.example.practice_spring.domain.member.entity;
 
-import com.example.umc9th.global.entity.BaseEntity;
+import com.example.practice_spring.domain.member.entity.type.TermType;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
-public class Term extends BaseEntity {
+@Table(name = "term")
+@Getter
+@Setter
+public class Term {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long termId;
 
-    @Column(name ="name", length = 30, nullable = false)
-    private String name;
-
-    @Column (name ="content", nullable=false)
-    private String content;
+    @Enumerated(EnumType.STRING)
+    private TermType name;
 }
