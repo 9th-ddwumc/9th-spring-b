@@ -5,6 +5,7 @@ import com.example.jpa_practice.global.apiPayload.code.GeneralErrorCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -19,6 +20,15 @@ public class GlobalExceptionHandler {
     public ResponseEntity<ApiResponse<Void>> handleCustomException(CustomException ex) {
         logWarn(ex);
         return ApiResponse.failure(ex.getErrorCode(), ex.getMessage());
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<ApiResponse<Void>> handleUsernameNotFoundException(UsernameNotFoundException ex) {
+        logWarn(ex);
+        return ApiResponse.failure(
+                GeneralErrorCode.UNAUTHORIZED,
+                ex.getMessage()
+        );
     }
 
     @ExceptionHandler({

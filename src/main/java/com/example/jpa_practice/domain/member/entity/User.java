@@ -1,6 +1,7 @@
 package com.example.jpa_practice.domain.member.entity;
 
 import com.example.jpa_practice.domain.member.enums.Gender;
+import com.example.jpa_practice.domain.member.enums.Role;
 import com.example.jpa_practice.domain.member.enums.SocialType;
 import com.example.jpa_practice.domain.mission.entity.UserMission;
 import com.example.jpa_practice.domain.review.entity.Review;
@@ -38,7 +39,10 @@ public class User {
     @Column(name = "address", length = 20, nullable = false)
     private String address;
 
-    @Column(name = "email", length = 20)
+    @Column(name = "detail_address", length = 100)
+    private String detailAddress;
+
+    @Column(name = "email", length = 100, nullable = false, unique = true)
     private String email;
 
     @Column(name = "phone_number", length = 20, nullable = false)
@@ -59,6 +63,14 @@ public class User {
 
     @Column(name = "nickname", length = 20, nullable = false)
     private String nickname;
+
+    @Column(name = "password", length = 255, nullable = false)
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    @Builder.Default
+    private Role role = Role.ROLE_USER;  // 기본 역할은 ROLE_USER
 
     // 연관관계 매핑
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
