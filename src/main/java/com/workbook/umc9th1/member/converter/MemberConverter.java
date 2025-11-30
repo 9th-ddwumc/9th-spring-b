@@ -38,4 +38,13 @@ public class MemberConverter {
                .providerId("LOCAL_" + joinDto.nickname())
                .build();
     }
+
+    public static MemberResDto.LoginDto toLoginDto(
+            Member member, String accessToken
+    ){
+        return MemberResDto.LoginDto.builder()
+                .memberId(member.getId())
+                .accessToken(accessToken)
+                .build();
+    }
 }

@@ -5,7 +5,6 @@ import com.workbook.umc9th1.member.exception.MemberException;
 import com.workbook.umc9th1.member.exception.code.MemberErrorCode;
 import com.workbook.umc9th1.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.convert.ReadingConverter;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
