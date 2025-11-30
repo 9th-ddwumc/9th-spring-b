@@ -1,0 +1,23 @@
+### 내가 작성한 리뷰 보기 API 테스트
+
+### 1. 모든 리뷰 조회 (필터 없음)
+GET http://localhost:8080/api/reviews/my-reviews?userId=1
+
+### 2. 가게별 필터링 (반이학생마라탕마라반)
+GET http://localhost:8080/api/reviews/my-reviews?userId=1&storeName=반이학생마라탕마라반
+
+### 3. 별점별 필터링 (5점)
+GET http://localhost:8080/api/reviews/my-reviews?userId=1&starRange=5
+
+### 4. 별점별 필터링 (4점대)
+GET http://localhost:8080/api/reviews/my-reviews?userId=1&starRange=4
+
+### 5. 별점별 필터링 (3점대)
+GET http://localhost:8080/api/reviews/my-reviews?userId=1&starRange=3
+
+### 6. 가게별 + 별점별 조합 (반이학생마라탕마라반, 4점대)
+GET http://localhost:8080/api/reviews/my-reviews?userId=1&storeName=반이학생마라탕마라반&starRange=4
+
+### 7. 가게별 + 별점별 조합 (반이학생마라탕마라반, 5점)
+GET http://localhost:8080/api/reviews/my-reviews?userId=1&storeName=반이학생마라탕마라반&starRange=5
+
