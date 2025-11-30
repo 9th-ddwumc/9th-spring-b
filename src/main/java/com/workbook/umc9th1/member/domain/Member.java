@@ -6,6 +6,7 @@ import com.workbook.umc9th1.member.domain.mapping.MemberFood;
 import com.workbook.umc9th1.member.domain.mapping.MemberPoint;
 import com.workbook.umc9th1.member.enums.Gender;
 import com.workbook.umc9th1.member.enums.Provider;
+import com.workbook.umc9th1.member.enums.Role;
 import com.workbook.umc9th1.review.domain.Review;
 import com.workbook.umc9th1.store.enums.Address;
 import jakarta.persistence.*;
@@ -52,8 +53,14 @@ public class Member extends BaseEntity {
     private Gender gender = Gender.NONE;
 
 
-    @Column(length = 100)
+    @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
+    private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
 
     @Column(name = "phone_number", length = 20)
