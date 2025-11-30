@@ -22,5 +22,5 @@ spring:
 jwt:
   token:
     secretKey: ${JWT_SECRET}
-    exception:
+    expiration:
       access: 14400000
